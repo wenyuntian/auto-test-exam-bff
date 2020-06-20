@@ -1,0 +1,7 @@
+server:
+  port: 8888
+
+
+examService:
+  host: 'http://localhost'
+  port: 8100

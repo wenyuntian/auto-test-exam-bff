@@ -1,0 +1,69 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.springframework.cloud:spring-cloud-contract-gradle-plugin:2.2.3.RELEASE'
+	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'maven-publish'
+
+group = 'com.thoughtworks'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "Hoxton.SR5")
+}
+
+bootJar {
+	archiveFileName = 'contract-provider'
+	archiveVersion = '0.0.1-SNAPSHOT'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+}
+
+publishing {
+	publications {
+		stubs(MavenPublication) {
+			artifactId "${project.name}-stubs"
+			artifact verifierStubsJar
+		}
+	}
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+contracts {
+	testFramework = org.springframework.cloud.contract.verifier.config.TestFramework.JUNIT5
+	failOnNoContracts = false
+}
+
+test {
+	useJUnitPlatform()
+}
