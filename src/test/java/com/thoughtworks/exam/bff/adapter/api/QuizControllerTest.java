@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureStubRunner()
 @AutoConfigureMockMvc
-class BlankQuizControllerTest {
+class QuizControllerTest {
     @Autowired
     private MockMvc mockMvc;
 

@@ -5,11 +5,11 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class BlankQuizDTO {
-    private String blankQuizId;
+public class QuizDTO {
+    private String quizId;
 
     @Override
     public String toString() {
-        return blankQuizId;
+        return quizId;
     }
 }

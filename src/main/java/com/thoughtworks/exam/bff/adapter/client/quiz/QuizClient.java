@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class BlankQuizClient {
+public class QuizClient {
     private RestTemplate restTemplate;
 
     @Value("${examService.host}")
@@ -15,11 +15,11 @@ public class BlankQuizClient {
     @Value("${examService.port}")
     private String examPort;
 
-    public BlankQuizClient(RestTemplateBuilder restTemplateBuilder) {
+    public QuizClient(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
     public String create(CreateQuizCommand createQuizCommand) {
-        return restTemplate.postForObject(examHost + ":" + examPort + "/quizzes", createQuizCommand, BlankQuizDTO.class).toString();
+        return restTemplate.postForObject(examHost + ":" + examPort + "/quizzes", createQuizCommand, QuizDTO.class).toString();
     }
 }
